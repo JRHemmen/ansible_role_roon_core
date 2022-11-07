@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  role_name: roon_core
+  author: James Hemmen
+  description: Installs Roon Core using the official installer script.
+
+  license: "GPLv3"
+
+  min_ansible_version: "2.13"
+
+  platforms:
+    - name: Debian
+      versions:
+        - "bullseye"
+
+  galaxy_tags:
+    - roon
+    - music
+    - tidal
+    - core
+
+dependencies: []

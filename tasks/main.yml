@@ -1,0 +1,41 @@
+---
+- name: Install Roon prereqs
+  ansible.builtin.package:
+    state: present
+    name:
+      - cifs-utils
+      - ffmpeg
+      - libasound2
+
+- name: Install Required Python packages
+  ansible.builtin.pip:
+    state: present
+    name:
+      - pexpect
+
+- name: Check if Roon is installed
+  ansible.builtin.stat:
+    path: /opt/RoonServer
+  register: LocalFiles
+
+- name: Install Roon
+  when: not LocalFiles.stat.exists
+  block:
+    - name: Wget Roon installer script
+      ansible.builtin.get_url:
+        url: https://download.roonlabs.net/builds/roonserver-installer-linuxx64.sh
+        dest: /home/{{ username }}/roonserver-installer-linuxx64.sh
+        mode: "0777"
+
+    - name: Modify install script to change database location
+      ansible.builtin.lineinfile:
+        path: /home/{{ username }}/roonserver-installer-linuxx64.sh
+        regexp: "^Environment=ROON_DATAROOT="
+        line: "Environment=ROON_DATAROOT={{ database_path }}"
+
+    - name: Run Roon install script
+      ansible.builtin.expect:
+        command: /home/{{ username }}/roonserver-installer-linuxx64.sh
+        responses:
+          "Do you want to install RoonServer on this machine": 'Y\n'
+        timeout: 20
