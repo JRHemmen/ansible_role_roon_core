@@ -21,11 +21,16 @@ None.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: roon_core
+    - name: Install Roon Core
+      hosts: roon_core
+      become: yes
       roles:
-         - { role: JRHemmen.roon_core }
+        - jrhemmen.roon_core
+      tags:
+        - roon_core
+      vars:
+        - database_path: "/some/other/db/path"
+         ---
 
 License
 -------
