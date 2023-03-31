@@ -38,4 +38,4 @@
         command: /tmp/roonserver-installer-linuxx64.sh
         responses:
           "Do you want to install RoonServer on this machine": 'Y\n'
-        timeout: 20
+        timeout: 60
